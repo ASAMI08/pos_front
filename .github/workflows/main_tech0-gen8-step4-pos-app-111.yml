@@ -29,12 +29,15 @@ jobs:
           npm run build --if-present
           npm run test --if-present
 
+      - name: Create deploy directory (if not exist)
+        run: |
+          mkdir -p ./deploy
+          # ここでビルドしたファイルをdeployディレクトリにコピーするなど
+          # 例: cp -r build/* ./deploy/
 
       - name: Zip artifact for deployment
         run: zip -r release.zip ./deploy/*
 
-
-    
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
@@ -56,12 +59,12 @@ jobs:
 
       - name: Unzip artifact for deployment
         run: unzip release.zip
-      
+
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'tech0-gen8-step4-pos-app-111'
           slot-name: 'Production'
-          package: .
+          package: ./deploy  # 展開されたディレクトリのパスを指定
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_4BB0F180A54F4E75A3443D169FB0A8A6 }}
