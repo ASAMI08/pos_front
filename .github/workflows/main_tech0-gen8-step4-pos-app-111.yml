@@ -29,14 +29,29 @@ jobs:
           npm run build --if-present
           npm run test --if-present
 
-      - name: Create deploy directory (if not exist)
+      - name: Create deploy directory and copy build files
         run: |
           mkdir -p ./deploy
-          # ここでビルドしたファイルをdeployディレクトリにコピーするなど
-          # 例: cp -r build/* ./deploy/
+          cp -r ./build/* ./deploy/  # ビルドしたファイルをdeployディレクトリにコピー
+
+      - name: Check if deploy directory exists and has files
+        run: |
+          if [ -d "./deploy" ]; then
+            echo "./deploy exists"
+            ls ./deploy
+          else
+            echo "./deploy does not exist"
+            exit 1
+          fi
 
       - name: Zip artifact for deployment
-        run: zip -r release.zip ./deploy/*
+        run: |
+          if [ "$(ls -A ./deploy)" ]; then
+            zip -r release.zip ./deploy/*
+          else
+            echo "No files to zip in ./deploy"
+            exit 1
+          fi
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
