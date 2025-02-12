@@ -13,7 +13,7 @@ const PurchasePage = () => {
   // 商品コード読み込みボタンが押されたときの処理
   const handleScanProductCode = async () => {
     try {
-      const requestUrl = `http://localhost:8000/search_product`;
+      const requestUrl = `https://tech0-gen8-step4-pos-app-112.azurewebsites.net/search_product`;
 
       const response = await axios.post(requestUrl, {
         code: productCode.trim(),  // 商品コードをリクエストボディに含める
