@@ -31,7 +31,8 @@ jobs:
 
 
       - name: Zip artifact for deployment
-        run: zip release.zip -r release.zip ./* -i ./deploy
+        run: zip -r release.zip ./deploy/*
+
 
     
       - name: Upload artifact for deployment job
