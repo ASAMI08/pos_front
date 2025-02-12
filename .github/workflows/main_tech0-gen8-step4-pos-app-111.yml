@@ -46,10 +46,10 @@ jobs:
 
       - name: Zip artifact for deployment
         run: |
-          if [ "$(ls -A ./deploy)" ]; then
-            zip -r release.zip ./deploy/*
+          if [ -d "./deploy" ] && [ "$(ls -A ./deploy)" ]; then
+            zip -r release.zip ./deploy/
           else
-            echo "No files to zip in ./deploy"
+            echo "./deploy directory is empty or does not exist"
             exit 1
           fi
 
