@@ -1,7 +1,4 @@
-const nextConfig = {
-  reactStrictMode: false,  // 🔹 そのままでOK
+module.exports = {
+  reactStrictMode: true,
 };
 
-export default nextConfig;
-
-  
