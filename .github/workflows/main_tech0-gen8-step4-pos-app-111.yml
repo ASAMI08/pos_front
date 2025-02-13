@@ -30,20 +30,19 @@ jobs:
           npm run test --if-present
 
       - name: Create deploy directory and copy build files
- 　　　 run: |
-    　　　mkdir -p ./deploy
-    　　　cp -r .next/* ./deploy/  # .next ディレクトリの内容を deploy ディレクトリにコピー
-
-                # 修正箇所1: buildが完了した後、.next ディレクトリが作成されていることを確認
-      - name: Check if .next directory exists
         run: |
-          ls -la .next  # Next.jsビルド結果が .next フォルダに保存されることを確認
+         mkdir -p ./deploy
+         cp -r .next/* ./deploy/  # .next ディレクトリの内容を deploy ディレクトリにコピー
 
-          # 修正箇所2: .next フォルダを deploy フォルダにコピー
-      - name: Create deploy directory and copy build files
+      - name: Check if deploy directory exists and has files
         run: |
-          mkdir -p ./deploy
-          cp -r .next/* ./deploy/  # .next ディレクトリから deploy ディレクトリにコピー
+          if [ -d "./deploy" ]; then
+            echo "./deploy exists"
+            ls ./deploy
+          else
+            echo "./deploy does not exist"
+            exit 1
+          fi
 
       - name: Zip artifact for deployment
         run: |
