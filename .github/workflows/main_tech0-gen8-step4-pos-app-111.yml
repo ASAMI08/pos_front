@@ -34,15 +34,16 @@ jobs:
           mkdir -p ./deploy
           cp -r ./build/* ./deploy/  # ビルドしたファイルをdeployディレクトリにコピー
 
-      - name: Check if deploy directory exists and has files
+                # 修正箇所1: buildが完了した後、.next ディレクトリが作成されていることを確認
+      - name: Check if .next directory exists
         run: |
-          if [ -d "./deploy" ]; then
-            echo "./deploy exists"
-            ls ./deploy
-          else
-            echo "./deploy does not exist"
-            exit 1
-          fi
+          ls -la .next  # Next.jsビルド結果が .next フォルダに保存されることを確認
+
+          # 修正箇所2: .next フォルダを deploy フォルダにコピー
+      - name: Create deploy directory and copy build files
+        run: |
+          mkdir -p ./deploy
+          cp -r .next/* ./deploy/  # .next ディレクトリから deploy ディレクトリにコピー
 
       - name: Zip artifact for deployment
         run: |
