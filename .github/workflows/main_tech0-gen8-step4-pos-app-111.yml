@@ -30,9 +30,9 @@ jobs:
           npm run test --if-present
 
       - name: Create deploy directory and copy build files
-        run: |
-          mkdir -p ./deploy
-          cp -r ./build/* ./deploy/  # ビルドしたファイルをdeployディレクトリにコピー
+ 　　　 run: |
+    　　　mkdir -p ./deploy
+    　　　cp -r .next/* ./deploy/  # .next ディレクトリの内容を deploy ディレクトリにコピー
 
                 # 修正箇所1: buildが完了した後、.next ディレクトリが作成されていることを確認
       - name: Check if .next directory exists
